@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Imperativo-Trainer · BHAK Wels 3AVK</title>
+<style>
+:root{--navy:#14294b;--navy2:#22407a;--red:#c8102e;--ink:#1a1f2b;--mut:#5d6677;--line:#dfe3ea;--bg:#f5f6f9;--card:#fff;--ok:#1d4f9c;--okbg:#e6eefb;--badbg:#fde9ec;--warn:#b45309;--warnbg:#fdf1e0}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg)}
+header{background:var(--navy);color:#fff;padding:14px 16px 0;position:sticky;top:0;z-index:5}
+.brand{display:flex;justify-content:space-between;align-items:baseline;gap:12px;max-width:860px;margin:0 auto}
+.brand b{letter-spacing:.08em;font-size:13px}
+.brand span{font-size:13px;opacity:.85}
+h1{font-size:22px;margin:2px auto 10px;max-width:860px;font-weight:700}
+h1 i{font-style:normal;color:#ff8c9c}
+nav{display:flex;gap:2px;overflow-x:auto;max-width:860px;margin:0 auto;scrollbar-width:none}
+nav::-webkit-scrollbar{display:none}
+nav button{flex:0 0 auto;background:none;border:0;color:#c9d3e6;font:inherit;font-size:14px;font-weight:600;padding:10px 12px;border-bottom:3px solid transparent;cursor:pointer}
+nav button.on{color:#fff;border-bottom-color:var(--red)}
+main{max-width:860px;margin:0 auto;padding:16px 14px 80px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:14px}
+h2{font-size:18px;margin:0 0 8px;color:var(--navy)}
+h3{font-size:15px;margin:14px 0 6px;color:var(--navy)}
+p{margin:6px 0}
+.mut{color:var(--mut);font-size:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.btn{display:inline-block;background:var(--navy);color:#fff;border:0;border-radius:10px;padding:12px 16px;font:inherit;font-weight:700;cursor:pointer}
+.btn.red{background:var(--red)}
+.btn.ghost{background:#fff;color:var(--navy);border:1.5px solid var(--navy)}
+.btn.small{padding:7px 11px;font-size:14px;font-weight:600}
+.btn:disabled{opacity:.4}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.chip{display:inline-flex;align-items:center;gap:6px;border:1.5px solid var(--line);border-radius:999px;padding:7px 12px;font-size:14px;font-weight:600;cursor:pointer;background:#fff;user-select:none}
+.chip.on{border-color:var(--navy);background:var(--navy);color:#fff}
+.bar{height:10px;background:#e7eaf0;border-radius:6px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--navy2)}
+.bar i.low{background:var(--red)}
+.stat{display:grid;grid-template-columns:120px 1fr 86px;gap:10px;align-items:center;font-size:14px;margin:7px 0}
+.stat span:last-child{text-align:right;color:var(--mut)}
+.big{font-size:30px;font-weight:800;color:var(--navy);line-height:1.1}
+.q{font-size:24px;font-weight:700;margin:6px 0 2px;color:var(--navy)}
+.q small{display:block;font-size:14px;font-weight:600;color:var(--mut);margin-top:2px}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--red)}
+input[type=text]{width:100%;font:inherit;font-size:20px;padding:12px;border:2px solid var(--line);border-radius:10px;outline:none;background:#fff;color:var(--ink)}
+input[type=text]:focus{border-color:var(--navy2)}
+input.ok{border-color:var(--ok);background:var(--okbg)}
+input.bad{border-color:var(--red);background:var(--badbg)}
+.keys{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.keys button{min-width:40px;padding:8px 0;font:inherit;font-size:17px;font-weight:600;border:1.5px solid var(--line);background:#fff;border-radius:8px;cursor:pointer;color:var(--navy)}
+.fb{border-radius:10px;padding:12px;margin-top:10px;font-size:15px}
+.fb.ok{background:var(--okbg);border-left:5px solid var(--ok)}
+.fb.bad{background:var(--badbg);border-left:5px solid var(--red)}
+.fb.warn{background:var(--warnbg);border-left:5px solid var(--warn)}
+.fb b.sol{font-size:19px}
+.prog{display:flex;justify-content:space-between;font-size:13px;color:var(--mut);margin-bottom:6px}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{border-bottom:1px solid var(--line);padding:7px 8px;text-align:left;vertical-align:top}
+th{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--mut)}
+td.inf{font-weight:700;color:var(--navy)}
+td.r{color:var(--red);font-weight:700}
+.scroll{overflow-x:auto}
+td input[type=text]{font-size:16px;padding:8px;min-width:110px}
+.rule{border-left:5px solid var(--navy2);background:var(--okbg);padding:10px 12px;border-radius:8px;margin:8px 0;font-size:15px}
+.rule.o{border-color:var(--warn);background:var(--warnbg)}
+.rule.r{border-color:var(--red);background:var(--badbg)}
+.note1{font-size:44px;font-weight:800;color:var(--navy)}
+details{margin:6px 0}summary{cursor:pointer;font-weight:700;color:var(--navy)}
+@media(max-width:520px){.stat{grid-template-columns:100px 1fr 70px}.q{font-size:21px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand"><b>BHAK WELS · 3AVK</b><span id="cd"></span></div>
+  <h1>Imperativo-<i>Trainer</i></h1>
+  <nav id="nav"></nav>
+</header>
+<main id="main"></main>
+<script>
+// Gemeinsame Daten für Trainer (HTML) und Word-Dokumente
+// a = bejaht [tú, usted, vosotros, ustedes], n = verneint (gleiche Reihenfolge)
+const PERSONS = ['tú', 'usted', 'vosotros', 'ustedes'];
+const CATS = { reg: 'Regelmäßig', irr: 'Unregelmäßig', stem: 'Stammwechsel', refl: 'Reflexiv', neg: 'Verneinung' };
+const VERBS = [
+  // regelmäßig
+  { inf: 'hablar', de: 'sprechen', cat: 'reg', a: ['habla', 'hable', 'hablad', 'hablen'], n: ['no hables', 'no hable', 'no habléis', 'no hablen'] },
+  { inf: 'tomar', de: 'nehmen', cat: 'reg', a: ['toma', 'tome', 'tomad', 'tomen'], n: ['no tomes', 'no tome', 'no toméis', 'no tomen'] },
+  { inf: 'nadar', de: 'schwimmen', cat: 'reg', a: ['nada', 'nade', 'nadad', 'naden'], n: ['no nades', 'no nade', 'no nadéis', 'no naden'] },
+  { inf: 'bajar', de: 'hinuntergehen', cat: 'reg', a: ['baja', 'baje', 'bajad', 'bajen'], n: ['no bajes', 'no baje', 'no bajéis', 'no bajen'] },
+  { inf: 'preparar', de: 'vorbereiten', cat: 'reg', a: ['prepara', 'prepare', 'preparad', 'preparen'], n: ['no prepares', 'no prepare', 'no preparéis', 'no preparen'] },
+  { inf: 'estudiar', de: 'lernen', cat: 'reg', a: ['estudia', 'estudie', 'estudiad', 'estudien'], n: ['no estudies', 'no estudie', 'no estudiéis', 'no estudien'] },
+  { inf: 'fumar', de: 'rauchen', cat: 'reg', a: ['fuma', 'fume', 'fumad', 'fumen'], n: ['no fumes', 'no fume', 'no fuméis', 'no fumen'] },
+  { inf: 'pagar', de: 'zahlen', cat: 'reg', note: 'Schreibung: g → gu vor e (pague), damit die Aussprache gleich bleibt.', a: ['paga', 'pague', 'pagad', 'paguen'], n: ['no pagues', 'no pague', 'no paguéis', 'no paguen'] },
+  { inf: 'apagar', de: 'ausschalten', cat: 'reg', note: 'Schreibung: g → gu vor e (apague).', a: ['apaga', 'apague', 'apagad', 'apaguen'], n: ['no apagues', 'no apague', 'no apaguéis', 'no apaguen'] },
+  { inf: 'comer', de: 'essen', cat: 'reg', a: ['come', 'coma', 'comed', 'coman'], n: ['no comas', 'no coma', 'no comáis', 'no coman'] },
+  { inf: 'beber', de: 'trinken', cat: 'reg', a: ['bebe', 'beba', 'bebed', 'beban'], n: ['no bebas', 'no beba', 'no bebáis', 'no beban'] },
+  { inf: 'correr', de: 'laufen', cat: 'reg', a: ['corre', 'corra', 'corred', 'corran'], n: ['no corras', 'no corra', 'no corráis', 'no corran'] },
+  { inf: 'vivir', de: 'leben', cat: 'reg', a: ['vive', 'viva', 'vivid', 'vivan'], n: ['no vivas', 'no viva', 'no viváis', 'no vivan'] },
+  { inf: 'escribir', de: 'schreiben', cat: 'reg', a: ['escribe', 'escriba', 'escribid', 'escriban'], n: ['no escribas', 'no escriba', 'no escribáis', 'no escriban'] },
+  { inf: 'abrir', de: 'öffnen', cat: 'reg', a: ['abre', 'abra', 'abrid', 'abran'], n: ['no abras', 'no abra', 'no abráis', 'no abran'] },
+  // unregelmäßig
+  { inf: 'hacer', de: 'machen', cat: 'irr', note: 'yo hago → haga, hagan.', a: ['haz', 'haga', 'haced', 'hagan'], n: ['no hagas', 'no haga', 'no hagáis', 'no hagan'] },
+  { inf: 'tener', de: 'haben', cat: 'irr', note: 'yo tengo → tenga, tengan.', a: ['ten', 'tenga', 'tened', 'tengan'], n: ['no tengas', 'no tenga', 'no tengáis', 'no tengan'] },
+  { inf: 'ir', de: 'gehen', cat: 'irr', note: 'Ganz unregelmäßig: ve – vaya – id – vayan. ustedes = vayaN!', a: ['ve', 'vaya', 'id', 'vayan'], n: ['no vayas', 'no vaya', 'no vayáis', 'no vayan'] },
+  { inf: 'salir', de: 'hinausgehen', cat: 'irr', note: 'yo salgo → salga, salgan.', a: ['sal', 'salga', 'salid', 'salgan'], n: ['no salgas', 'no salga', 'no salgáis', 'no salgan'] },
+  { inf: 'poner', de: 'stellen, legen', cat: 'irr', note: 'yo pongo → ponga, pongan.', a: ['pon', 'ponga', 'poned', 'pongan'], n: ['no pongas', 'no ponga', 'no pongáis', 'no pongan'] },
+  { inf: 'decir', de: 'sagen', cat: 'irr', note: 'yo digo → diga, digan.', a: ['di', 'diga', 'decid', 'digan'], n: ['no digas', 'no diga', 'no digáis', 'no digan'] },
+  { inf: 'venir', de: 'kommen', cat: 'irr', note: 'yo vengo → venga, vengan.', a: ['ven', 'venga', 'venid', 'vengan'], n: ['no vengas', 'no venga', 'no vengáis', 'no vengan'] },
+  { inf: 'ver', de: 'sehen', cat: 'irr', note: 'yo veo → vea, vean. tú = ve (wie bei ir!).', a: ['ve', 'vea', 'ved', 'vean'], n: ['no veas', 'no vea', 'no veáis', 'no vean'] },
+  { inf: 'ser', de: 'sein', cat: 'irr', note: 'Ganz unregelmäßig: sé (mit Akzent!) – sea – sed – sean.', a: ['sé', 'sea', 'sed', 'sean'], n: ['no seas', 'no sea', 'no seáis', 'no sean'] },
+  { inf: 'dar', de: 'geben', cat: 'irr', note: 'usted: dé mit Akzent (ohne Akzent = „von“).', a: ['da', 'dé', 'dad', 'den'], n: ['no des', 'no dé', 'no deis', 'no den'] },
+  // Stammwechsel
+  { inf: 'cerrar', de: 'schließen', cat: 'stem', sw: 'e → ie', a: ['cierra', 'cierre', 'cerrad', 'cierren'], n: ['no cierres', 'no cierre', 'no cerréis', 'no cierren'] },
+  { inf: 'entender', de: 'verstehen', cat: 'stem', sw: 'e → ie', a: ['entiende', 'entienda', 'entended', 'entiendan'], n: ['no entiendas', 'no entienda', 'no entendáis', 'no entiendan'] },
+  { inf: 'encender', de: 'anzünden', cat: 'stem', sw: 'e → ie', a: ['enciende', 'encienda', 'encended', 'enciendan'], n: ['no enciendas', 'no encienda', 'no encendáis', 'no enciendan'] },
+  { inf: 'volver', de: 'zurückkommen', cat: 'stem', sw: 'o → ue', a: ['vuelve', 'vuelva', 'volved', 'vuelvan'], n: ['no vuelvas', 'no vuelva', 'no volváis', 'no vuelvan'] },
+  { inf: 'dormir', de: 'schlafen', cat: 'stem', sw: 'o → ue', a: ['duerme', 'duerma', 'dormid', 'duerman'], n: ['no duermas', 'no duerma', 'no durmáis', 'no duerman'] },
+  { inf: 'contar', de: 'erzählen, zählen', cat: 'stem', sw: 'o → ue', a: ['cuenta', 'cuente', 'contad', 'cuenten'], n: ['no cuentes', 'no cuente', 'no contéis', 'no cuenten'] },
+  { inf: 'probar', de: 'probieren', cat: 'stem', sw: 'o → ue', a: ['prueba', 'pruebe', 'probad', 'prueben'], n: ['no pruebes', 'no pruebe', 'no probéis', 'no prueben'] },
+  { inf: 'jugar', de: 'spielen', cat: 'stem', sw: 'u → ue', note: 'Zusätzlich g → gu vor e: juegue.', a: ['juega', 'juegue', 'jugad', 'jueguen'], n: ['no juegues', 'no juegue', 'no juguéis', 'no jueguen'] },
+  { inf: 'pedir', de: 'bitten, bestellen', cat: 'stem', sw: 'e → i', a: ['pide', 'pida', 'pedid', 'pidan'], n: ['no pidas', 'no pida', 'no pidáis', 'no pidan'] },
+  // reflexiv
+  { inf: 'levantarse', de: 'aufstehen', cat: 'refl', a: ['levántate', 'levántese', 'levantaos', 'levántense'], n: ['no te levantes', 'no se levante', 'no os levantéis', 'no se levanten'] },
+  { inf: 'quedarse', de: 'bleiben', cat: 'refl', a: ['quédate', 'quédese', 'quedaos', 'quédense'], n: ['no te quedes', 'no se quede', 'no os quedéis', 'no se queden'] },
+  { inf: 'acostarse', de: 'ins Bett gehen', cat: 'refl', sw: 'o → ue', a: ['acuéstate', 'acuéstese', 'acostaos', 'acuéstense'], n: ['no te acuestes', 'no se acueste', 'no os acostéis', 'no se acuesten'] },
+  { inf: 'despertarse', de: 'aufwachen', cat: 'refl', sw: 'e → ie', a: ['despiértate', 'despiértese', 'despertaos', 'despiértense'], n: ['no te despiertes', 'no se despierte', 'no os despertéis', 'no se despierten'] },
+  { inf: 'sentarse', de: 'sich setzen', cat: 'refl', sw: 'e → ie', a: ['siéntate', 'siéntese', 'sentaos', 'siéntense'], n: ['no te sientes', 'no se siente', 'no os sentéis', 'no se sienten'] },
+  { inf: 'vestirse', de: 'sich anziehen', cat: 'refl', sw: 'e → i', note: 'vosotros: vestíos (mit Akzent, weil -ir-Verb).', a: ['vístete', 'vístase', 'vestíos', 'vístanse'], n: ['no te vistas', 'no se vista', 'no os vistáis', 'no se vistan'] },
+];
+
+// „Lengua Tarzan“ wie auf AB3 (B) und AB3 2 (Aufg. 141/142): [Angabe, bejaht, verneint, Kategorie]
+const TARZAN = [
+  ['Tú / tomar café', 'Toma café', 'No tomes café', 'reg'],
+  ['Ustedes / ayudar a la gente pobre', 'Ayuden a la gente pobre', 'No ayuden a la gente pobre', 'reg'],
+  ['Vosotros / sacar la basura', 'Sacad la basura', 'No saquéis la basura', 'reg'],
+  ['Usted / dar un paseo', 'Dé un paseo', 'No dé un paseo', 'irr'],
+  ['Tú / quedarse en la cama', 'Quédate en la cama', 'No te quedes en la cama', 'refl'],
+  ['Usted / pagar la cuenta', 'Pague la cuenta', 'No pague la cuenta', 'reg'],
+  ['Tú / comer un bocadillo', 'Come un bocadillo', 'No comas un bocadillo', 'reg'],
+  ['Vosotros / estudiar el vocabulario', 'Estudiad el vocabulario', 'No estudiéis el vocabulario', 'reg'],
+  ['Ustedes / hacer gimnasia', 'Hagan gimnasia', 'No hagan gimnasia', 'irr'],
+  ['Usted / pedir más información', 'Pida más información', 'No pida más información', 'stem'],
+  ['Tú / cerrar la puerta', 'Cierra la puerta', 'No cierres la puerta', 'stem'],
+  ['Ustedes / poner la radio', 'Pongan la radio', 'No pongan la radio', 'irr'],
+  ['Tú / vestirse a la moda', 'Vístete a la moda', 'No te vistas a la moda', 'refl'],
+  ['Tú / fumar menos', 'Fuma menos', 'No fumes menos', 'reg'],
+  ['Usted / sentarse', 'Siéntese', 'No se siente', 'refl'],
+  ['Tú / venir aquí', 'Ven aquí', 'No vengas aquí', 'irr'],
+  ['Vosotros / hacer los deberes', 'Haced los deberes', 'No hagáis los deberes', 'irr'],
+  ['Ustedes / levantarse temprano', 'Levántense temprano', 'No se levanten temprano', 'refl'],
+  ['Tú / ordenar la habitación', 'Ordena la habitación', 'No ordenes la habitación', 'reg'],
+  ['Usted / abrir la ventana', 'Abra la ventana', 'No abra la ventana', 'reg'],
+  ['Vosotros / probar este vino', 'Probad este vino', 'No probéis este vino', 'stem'],
+  ['Usted / preparar el desayuno', 'Prepare el desayuno', 'No prepare el desayuno', 'reg'],
+  ['Usted / volver mañana', 'Vuelva mañana', 'No vuelva mañana', 'stem'],
+  ['Tú / poner la mesa', 'Pon la mesa', 'No pongas la mesa', 'irr'],
+  ['Vosotros / consultar el diccionario', 'Consultad el diccionario', 'No consultéis el diccionario', 'reg'],
+  ['Usted / despertarse', 'Despiértese', 'No se despierte', 'refl'],
+  ['Ustedes / ir en metro', 'Vayan en metro', 'No vayan en metro', 'irr'],
+  ['Tú / decir la verdad', 'Di la verdad', 'No digas la verdad', 'irr'],
+  ['Vosotros / comer despacio', 'Comed despacio', 'No comáis despacio', 'reg'],
+  ['Usted / hablar con el profe', 'Hable con el profe', 'No hable con el profe', 'reg'],
+  ['Tú / apagar la tele', 'Apaga la tele', 'No apagues la tele', 'reg'],
+  ['Ustedes / cruzar la calle', 'Crucen la calle', 'No crucen la calle', 'reg'],
+  ['Vosotros / calentar la tortilla', 'Calentad la tortilla', 'No calentéis la tortilla', 'stem'],
+  ['Usted / coger un taxi', 'Coja un taxi', 'No coja un taxi', 'reg'],
+  ['Usted / seguir todo recto', 'Siga todo recto', 'No siga todo recto', 'stem'],
+];
+
+// Übersetzungen: [Deutsch, [akzeptierte Lösungen], Hinweis, Kategorie]
+const TRANSLATE = [
+  ['Steh früh auf! (tú)', ['Levántate temprano'], 'levantarse, tú: levanta + te → Akzent: levántate.', 'refl'],
+  ['Stehen Sie auf! (usted)', ['Levántese'], 'usted: levante + se → levántese.', 'refl'],
+  ['Steht auf! (vosotros)', ['Levantaos'], 'vosotros reflexiv: levantad → d fällt weg + os.', 'refl'],
+  ['Setzt euch! (vosotros)', ['Sentaos'], 'sentad → d weg + os. Kein Stammwechsel bei vosotros.', 'refl'],
+  ['Wach auf! (tú)', ['Despiértate'], 'despertarse (e → ie): despierta + te → despiértate.', 'refl'],
+  ['Bleib zu Hause! (tú)', ['Quédate en casa'], 'quedarse: queda + te → quédate (Akzent!).', 'refl'],
+  ['Geh ins Bett! (tú)', ['Acuéstate', 'Ve a la cama'], 'acostarse (o → ue): acuesta + te → acuéstate.', 'refl'],
+  ['Sag die Wahrheit! (tú)', ['Di la verdad'], 'decir → di (Kurzform).', 'irr'],
+  ['Sagt die Wahrheit! (vosotros)', ['Decid la verdad'], 'vosotros ist immer regelmäßig: decir → decid.', 'irr'],
+  ['Kommt her! (vosotros)', ['Venid aquí', 'Venid'], 'venir → venid.', 'irr'],
+  ['Komm her! (tú)', ['Ven aquí', 'Ven'], 'venir → ven (Kurzform).', 'irr'],
+  ['Gehen Sie nach Hause! (ustedes)', ['Vayan a casa'], 'ir, ustedes: vayan (mit n!).', 'irr'],
+  ['Geh nach Hause! (tú)', ['Ve a casa'], 'ir → ve.', 'irr'],
+  ['Mach die Hausübung! (tú)', ['Haz los deberes'], 'hacer → haz.', 'irr'],
+  ['Sei gut! (tú)', ['Sé bueno', 'Sé buena'], 'ser → sé mit Akzent.', 'irr'],
+  ['Deck den Tisch! (tú)', ['Pon la mesa'], 'poner → pon.', 'irr'],
+  ['Schlaf acht Stunden! (tú)', ['Duerme ocho horas'], 'dormir (o → ue): él duerme → ¡duerme!', 'stem'],
+  ['Schließen Sie die Tür! (usted)', ['Cierre la puerta'], 'cerrar (e → ie), usted: cierre.', 'stem'],
+  ['Kommen Sie morgen zurück! (usted)', ['Vuelva mañana'], 'volver (o → ue), usted: vuelva.', 'stem'],
+  ['Trinken Sie mehr Wasser! (usted)', ['Beba más agua', 'Tome más agua'], 'beber, usted: -er → a: beba.', 'reg'],
+  ['Schreibt einen Brief! (vosotros)', ['Escribid una carta'], 'escribir → escribid.', 'reg'],
+  ['Sprich nicht! (tú)', ['No hables'], 'verneint, tú: no + hables.', 'neg'],
+  ['Iss nicht so viel! (tú)', ['No comas tanto'], 'verneint, tú: no + comas.', 'neg'],
+  ['Steh nicht auf! (tú)', ['No te levantes'], 'verneint: Pronomen VOR das Verb: no te levantes.', 'neg'],
+  ['Mach es! (tú)', ['Hazlo'], 'bejaht: Pronomen angehängt: haz + lo.', 'irr'],
+  ['Mach es nicht! (tú)', ['No lo hagas'], 'verneint: no + lo + hagas.', 'neg'],
+  ['Benutz das Handy nicht in der Nacht! (tú)', ['No uses el móvil por la noche', 'No uses el móvil de noche'], 'usar, verneint tú: no uses.', 'neg'],
+  ['Geht nicht hinaus! (vosotros)', ['No salgáis'], 'salir, verneint vosotros: no salgáis.', 'neg'],
+];
+
+// Fehler finden: [Kontext, falsch, [richtig], Warum, Kategorie, Quelle]
+const ERRORS = [
+  ['ir · ustedes', 'Vaya en metro', ['Vayan en metro'], 'ustedes braucht immer -n: vaya = usted (1 Person), vayan = ustedes (mehrere).', 'irr', '6. Schulübung'],
+  ['quedarse · tú', 'Quedate en casa', ['Quédate en casa'], 'Pronomen angehängt → Akzent auf die betonte Silbe: quédate.', 'refl', '8. Schulübung'],
+  ['levantarse · usted', 'Levantese', ['Levántese'], 'Akzent fehlt: levante + se → levántese.', 'refl', '8. Schulübung'],
+  ['ser · tú', 'Se bueno', ['Sé bueno'], 'sé (sei!) immer mit Akzent – „se“ ohne Akzent ist das Pronomen.', 'irr', ''],
+  ['hablar · tú · verneint', 'No habla', ['No hables'], 'Verneint darf nicht die bejahte Form stehen: no + hables.', 'neg', ''],
+  ['levantarse · tú · verneint', 'No levántate', ['No te levantes'], 'Verneint steht das Pronomen VOR dem Verb: no te levantes.', 'neg', ''],
+  ['levantarse · vosotros', 'Levantados', ['Levantaos'], 'Bei vosotros + os fällt das -d weg: levantaos.', 'refl', ''],
+  ['acostarse · usted (Señora Vázquez)', 'Acuéstate temprano', ['Acuéstese temprano'], 'usted verlangt -se und die usted-Endung: acuéstese. Acuéstate wäre tú.', 'refl', 'AB2 2, Situación 1'],
+  ['tomar · usted (Señora Vázquez)', 'Tomé más agua', ['Tome más agua'], 'tomé (mit Akzent) = „ich nahm“ (Vergangenheit). usted-Imperativ: tome.', 'reg', 'AB2 2, Situación 1'],
+  ['comer · usted (Señora Vázquez)', 'Come más verduras', ['Coma más verduras'], 'come = tú. usted: -er → a: coma.', 'reg', 'AB2 2, Situación 1'],
+  ['nadar · usted', 'Naden', ['Nade'], 'naden = ustedes. usted (eine Person): nade.', 'reg', 'AB3, Tabelle'],
+  ['escribir · usted', 'Escriban', ['Escriba'], 'escriban = ustedes. usted: escriba.', 'reg', 'AB3, Tabelle'],
+  ['vivir · tú', 'Vi', ['Vive'], 'vivir ist regelmäßig: tú = él-Form → vive. Kurzformen gibt es nur bei den 8 unregelmäßigen.', 'reg', 'AB3, Tabelle'],
+  ['acostarse · vosotros', 'Acuestad', ['Acostaos'], 'vosotros: kein Stammwechsel, -d weg + os: acostaos.', 'refl', 'AB3, Tabelle'],
+  ['hacer · tú', 'Hace los deberes', ['Haz los deberes'], 'hacer hat die Kurzform haz.', 'irr', ''],
+  ['dormir · vosotros', 'Duermid', ['Dormid'], 'Bei vosotros gibt es nie einen Stammwechsel: dormid.', 'stem', ''],
+  ['dormir · tú', 'Dorme ocho horas', ['Duerme ocho horas'], 'Stammwechsel o → ue bei tú: duerme.', 'stem', ''],
+  ['hacer · tú · verneint (es)', 'No hazlo', ['No lo hagas'], 'Verneint: no + Pronomen + Subjuntivo-Form: no lo hagas.', 'neg', ''],
+  ['poner · tú', 'Pone la mesa', ['Pon la mesa'], 'poner hat die Kurzform pon.', 'irr', ''],
+  ['salir · ustedes', 'Selgen', ['Salgan'], 'yo salgo → salga / salgan (Stamm bleibt sal-).', 'irr', 'AB3, Tabelle'],
+];
+
+if (typeof module !== 'undefined') module.exports = { PERSONS, CATS, VERBS, TARZAN, TRANSLATE, ERRORS };
+
+(function(){
+'use strict';
+var TABS=[['home','Start'],['drill','Formen-Drill'],['tabla','Tabelle'],['frases','Sätze'],['errores','Fehler finden'],['traduce','Übersetzen'],['test','Probetest'],['regeln','Regeln']];
+var KEY='imperativo-trainer-v1', S={cat:{},items:{},exams:[]};
+try{var raw=localStorage.getItem(KEY); if(raw) S=JSON.parse(raw);}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+var $=function(id){return document.getElementById(id);}, main=$('main'), tab='home';
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function norm(s){return String(s).toLowerCase().replace(/[¡!¿?.,;:]/g,' ').replace(/\s+/g,' ').trim();}
+function bare(s){return norm(s).normalize('NFD').replace(/[̀́̈]/g,'');}
+
+// ---------- Countdown ----------
+(function(){var t=new Date(2026,10,12,8,0), d=Math.ceil((t-new Date())/864e5);
+ $('cd').textContent = d>1?('Test in '+d+' Tagen · Do 12.11.'):d===1?'Test morgen · Do 12.11.':d===0?'Heute ist der Test!':'Test: 12.11.2026';})();
+
+// ---------- Hinweise ----------
+function hint(v,p,neg){
+  var h;
+  if(neg){
+    h='Verneint = no + Subjuntivo-Form. ';
+    if(v.cat==='refl') h+='Das Pronomen steht VOR dem Verb (no te … / no se … / no os …). ';
+    h+= p===0?'tú: wie die usted-Form + s (-es bei -ar, -as bei -er/-ir).':p===2?'vosotros: -éis (bei -ar) bzw. -áis (bei -er/-ir).':'usted/ustedes: gleiche Form wie bejaht, nur mit no davor.';
+  } else if(p===0){
+    h = v.cat==='irr' ? 'Unregelmäßige Kurzform – auswendig: ven, di, sal, haz, ten, ve, pon, sé.' : 'tú-Imperativ = él-Form im Präsens'+(v.sw?' (Stammwechsel '+v.sw+' bleibt).':'.');
+    if(v.cat==='refl') h+=' Dann te anhängen und Akzent auf die betonte Silbe setzen.';
+  } else if(p===2){
+    h = v.cat==='refl' ? 'vosotros reflexiv: Infinitiv ohne -r, das -d fällt weg, + os. Nie Stammwechsel.' : 'vosotros: Infinitiv, -r weg, -d dran. Immer regelmäßig, nie Stammwechsel.';
+  } else {
+    h='usted/ustedes: yo-Form im Präsens nehmen, -o weg, Gegen-Endung (-ar → e/en, -er/-ir → a/an).'+(v.sw?' Stammwechsel '+v.sw+' bleibt.':'');
+    if(v.cat==='refl') h+=' Dann se anhängen und Akzent setzen.';
+    if(p===3) h+=' ustedes immer mit -n!';
+  }
+  if(v.note) h+=' '+v.note;
+  return h;
+}
+function verbItems(f){ // f:{cats:{},persons:{},pol:'a'|'n'|'b'}
+  var out=[];
+  VERBS.forEach(function(v){ if(!f.cats[v.cat]) return;
+    for(var p=0;p<4;p++){ if(!f.persons[p]) continue;
+      if(f.pol!=='n') out.push({id:v.inf+'|'+p+'|a',cat:v.cat,tag:CATS[v.cat],q:v.inf+' → '+PERSONS[p],sub:'bejaht · '+v.de,ans:[v.a[p]],hint:hint(v,p,false)});
+      if(f.pol!=='a') out.push({id:v.inf+'|'+p+'|n',cat:'neg',tag:'Verneinung',q:v.inf+' → '+PERSONS[p],sub:'VERNEINT · '+v.de,ans:[v.n[p]],hint:hint(v,p,true)});
+    }});
+  return out;
+}
+function allP(){return {0:1,1:1,2:1,3:1};}
+function allC(){return {reg:1,irr:1,stem:1,refl:1};}
+function tarzanItems(pol){return TARZAN.map(function(t,i){var neg=pol==='n';
+  return {id:'tz'+i+(neg?'n':'a'),cat:neg?'neg':t[3],tag:neg?'Verneinung':CATS[t[3]],q:t[0],sub:neg?'Bilde den VERNEINTEN Imperativ':'Bilde den bejahten Imperativ',ans:[neg?t[2]:t[1]],hint:neg?'Verneint: no + (Pronomen) + Subjuntivo-Form.':'Achte auf die Person vor dem Schrägstrich.'};});}
+function transItems(){return TRANSLATE.map(function(t,i){return {id:'tr'+i,cat:t[3],tag:'Traduce',q:t[0],sub:'Übersetze ins Spanische',ans:t[1],hint:t[2]};});}
+function errItems(){return ERRORS.map(function(e,i){return {id:'er'+i,cat:e[4],tag:'Corrige'+(e[5]?' · '+e[5]:''),q:'✗ ¡'+e[1]+'!',sub:e[0]+' – schreibe den Satz richtig',ans:e[2],hint:e[3]};});}
+
+// ---------- Statistik ----------
+function record(it,ok){var c=S.cat[it.cat]||(S.cat[it.cat]={r:0,w:0}); ok?c.r++:c.w++;
+  var x=S.items[it.id]||(S.items[it.id]=[0,0]); x[ok?0:1]++; save();}
+function pct(c){var n=c.r+c.w;return n?Math.round(100*c.r/n):0;}
+function weakItems(){var all=verbItems({cats:allC(),persons:allP(),pol:'b'}).concat(tarzanItems('a'),transItems(),errItems());
+  var w=all.filter(function(it){var x=S.items[it.id];return x&&x[1]>0&&x[1]>=x[0];});
+  return w;}
+
+// ---------- Quiz-Runner ----------
+var R=null;
+function start(items,opt){opt=opt||{}; if(!items.length){alert('Keine Aufgaben für diese Auswahl.');return;}
+  R={items:items,i:0,right:0,total:items.length,exam:!!opt.exam,title:opt.title||'',log:[],wrong:[],checked:false,t0:Date.now(),back:opt.back||tab};
+  renderQ();}
+function accentKeys(){return '<div class="keys">'+['á','é','í','ó','ú','ñ'].map(function(k){return '<button type="button" data-k="'+k+'" tabindex="-1">'+k+'</button>';}).join('')+'</div>';}
+function bindKeys(inp){main.querySelectorAll('.keys button').forEach(function(b){b.onmousedown=function(e){e.preventDefault();};b.onclick=function(){
+  var el=document.activeElement&&document.activeElement.tagName==='INPUT'?document.activeElement:inp; if(!el||el.readOnly) return;
+  var s=el.selectionStart,e2=el.selectionEnd; el.value=el.value.slice(0,s)+b.dataset.k+el.value.slice(e2); el.setSelectionRange(s+1,s+1); el.focus();};});}
+function renderQ(){var it=R.items[R.i];
+  main.innerHTML='<div class="card"><div class="prog"><span>'+esc(R.title)+'</span><span>'+(R.i+1)+' / '+R.items.length+(R.exam?'':' · richtig: '+R.right)+'</span></div>'+
+  '<div class="bar"><i style="width:'+Math.round(100*R.i/R.items.length)+'%"></i></div>'+
+  '<p style="margin-top:14px"><span class="tag">'+esc(it.tag)+'</span></p><div class="q">'+esc(it.q)+'<small>'+esc(it.sub)+'</small></div>'+
+  '<form id="f" autocomplete="off" style="margin-top:12px"><input type="text" id="a" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="Antwort auf Spanisch">'+accentKeys()+
+  '<div class="row"><button class="btn" id="go">Prüfen</button><button type="button" class="btn ghost small" id="quit">Beenden</button></div></form><div id="fb"></div></div>';
+  var inp=$('a'); R.checked=false; bindKeys(inp); inp.focus();
+  $('quit').onclick=function(){finish();};
+  $('f').onsubmit=function(e){e.preventDefault(); if(R.checked){next();return;} check(inp.value);};
+}
+function check(val){var it=R.items[R.i], n=norm(val), ok=it.ans.some(function(a){return norm(a)===n;}),
+  near=!ok&&it.ans.some(function(a){return bare(a)===bare(val);});
+  if(!R.exam||!it.repeat) {}
+  if(!it.repeat){ record(it,ok); if(ok) R.right++; else R.wrong.push(it); R.log.push({it:it,val:val,ok:ok}); }
+  if(R.exam){next();return;}
+  R.checked=true; var inp=$('a'); inp.readOnly=true; inp.className=ok?'ok':'bad'; $('go').textContent='Weiter (Enter)';
+  var cap=function(x){return x.charAt(0).toUpperCase()+x.slice(1);}; var sol='<b class="sol">¡'+esc(cap(it.ans[0]))+'!</b>'+(it.ans.length>1?' <span class="mut">(auch: '+esc(it.ans.slice(1).join(' / '))+')</span>':'');
+  $('fb').innerHTML = ok ? '<div class="fb ok"><b>Richtig.</b> '+sol+'<br><span class="mut">'+esc(it.hint)+'</span></div>'
+    : near ? '<div class="fb warn"><b>Fast – nur der Akzent stimmt nicht.</b> Im Test ist das ein Fehler.<br>Richtig: '+sol+'<br>'+esc(it.hint)+'</div>'
+    : '<div class="fb bad"><b>Falsch.</b> Richtig: '+sol+'<br>'+esc(it.hint)+'</div>';
+  if(!ok && !it.repeat){ var c={}; for(var k in it) c[k]=it[k]; c.repeat=true; c.tag=it.tag+' · Wiederholung'; R.items.splice(Math.min(R.items.length,R.i+4),0,c); }
+  $('go').focus();
+}
+function next(){R.i++; if(R.i>=R.items.length) finish(); else renderQ();}
+function grade(p){return p>=90?1:p>=80?2:p>=65?3:p>=50?4:5;}
+function finish(){var done=R.log.length, p=done?Math.round(100*R.right/done):0, h='<div class="card"><h2>'+esc(R.title)+' – Ergebnis</h2>';
+  if(R.exam){ p=Math.round(100*R.right/R.total); var g=grade(p), sec=Math.round((Date.now()-R.t0)/1000);
+    S.exams.push({d:new Date().toISOString().slice(0,10),p:p}); save();
+    h+='<div class="row" style="gap:24px"><div><div class="mut">Übungsnote</div><div class="note1">'+g+'</div></div><div><div class="big">'+R.right+' / '+R.total+'</div><div class="mut">'+p+' % · '+Math.floor(sec/60)+' min '+(sec%60)+' s</div></div></div>'+
+    '<p class="mut">Übungsschlüssel (kein offizieller Notenschlüssel deiner Lehrkraft): ab 90 % = 1 · ab 80 % = 2 · ab 65 % = 3 · ab 50 % = 4. Akzentfehler zählen hier als falsch.</p>';
+  } else h+='<div class="big">'+R.right+' / '+done+'</div><p class="mut">'+p+' % beim ersten Versuch richtig</p>';
+  var wr=R.log.filter(function(l){return !l.ok;});
+  if(wr.length){h+='<h3>Deine Fehler</h3><div class="scroll"><table><tr><th>Aufgabe</th><th>Deine Antwort</th><th>Richtig</th></tr>'+wr.map(function(l){return '<tr><td>'+esc(l.it.q)+'<br><span class="mut">'+esc(l.it.sub)+'</span></td><td>'+esc(l.val||'–')+'</td><td class="r">'+esc(l.it.ans[0])+'<br><span class="mut" style="font-weight:400">'+esc(l.it.hint)+'</span></td></tr>';}).join('')+'</table></div>';}
+  else if(done) h+='<div class="fb ok"><b>Fehlerfrei.</b> Genau so am Donnerstag.</div>';
+  h+='<div class="row" style="margin-top:14px">'+(wr.length?'<button class="btn red" id="again">Nur die Fehler wiederholen</button>':'')+'<button class="btn ghost" id="bk">Zurück</button></div></div>';
+  main.innerHTML=h; var back=R.back, wrongs=R.wrong.slice(), title=R.title;
+  if($('again')) $('again').onclick=function(){start(shuffle(wrongs),{title:'Fehler-Wiederholung',back:back});};
+  $('bk').onclick=function(){go(back);};
+}
+
+// ---------- Seiten ----------
+function chips(id,opts,sel,multi){return '<div class="row" id="'+id+'">'+opts.map(function(o){return '<span class="chip'+(sel.indexOf(o[0])>=0?' on':'')+'" data-v="'+o[0]+'">'+o[1]+'</span>';}).join('')+'</div>';}
+function bindChips(id,multi){var box=$(id); box.querySelectorAll('.chip').forEach(function(c){c.onclick=function(){ if(multi) c.classList.toggle('on'); else {box.querySelectorAll('.chip').forEach(function(x){x.classList.remove('on');}); c.classList.add('on');} };});}
+function chipVals(id){return Array.prototype.map.call($(id).querySelectorAll('.chip.on'),function(c){return c.dataset.v;});}
+function take(a,n){a=shuffle(a);return n==='all'?a:a.slice(0,+n);}
+
+var pages={};
+pages.home=function(){
+  var cats=['reg','irr','stem','refl','neg'], ready=true, tot=0;
+  var rows=cats.map(function(k){var c=S.cat[k]||{r:0,w:0}, n=c.r+c.w, p=pct(c); tot+=n; if(n<15||p<90) ready=false;
+    return '<div class="stat"><span><b>'+CATS[k]+'</b></span><div class="bar"><i class="'+(n&&p<75?'low':'')+'" style="width:'+p+'%"></i></div><span>'+(n?p+' % · '+n:'–')+'</span></div>';}).join('');
+  var weak=weakItems().length, ex=S.exams.slice(-3).map(function(e){return e.p+' %';}).join(' · ');
+  main.innerHTML='<div class="card"><h2>Dein Stand</h2>'+rows+
+   '<div class="fb '+(ready?'ok':tot?'warn':'ok')+'" style="margin-top:12px">'+(ready?'<b>Testbereit.</b> Alle fünf Bereiche über 90 %. Halte das Niveau mit einem Probetest.':tot?'<b>Noch nicht ganz.</b> Ziel für die Note 1: in jedem Bereich mindestens 15 Antworten und 90 % richtig.':'<b>Los geht’s.</b> Starte mit „In 20 Minuten das Wichtigste“ – danach siehst du hier, wo du stehst.')+'</div>'+
+   (ex?'<p class="mut">Letzte Probetests: '+ex+'</p>':'')+'</div>'+
+   '<div class="grid">'+
+   '<div class="card"><h2>In 20 Minuten das Wichtigste</h2><p class="mut">Gemischter Durchgang: 6 regelmäßige, 9 unregelmäßige, 5 Stammwechsel, 5 reflexive, 5 verneinte.</p><button class="btn" id="q1">Starten</button></div>'+
+   '<div class="card"><h2>Die 8 Kurzformen</h2><p class="mut">ven · di · sal · haz · ten · ve · pon · sé – plus ver und dar. Nur tú.</p><button class="btn" id="q2">Starten</button></div>'+
+   '<div class="card"><h2>Meine Schwächen</h2><p class="mut">'+(weak?weak+' Aufgaben, die du öfter falsch als richtig hattest.':'Noch keine gespeicherten Schwächen.')+'</p><button class="btn red" id="q3"'+(weak?'':' disabled')+'>Trainieren</button></div>'+
+   '<div class="card"><h2>Probetest</h2><p class="mut">24 Aufgaben ohne Sofort-Feedback, mit Übungsnote.</p><button class="btn" id="q4">Zum Probetest</button></div>'+
+   '</div><p class="mut">Tipp: Akzente tippst du über die Tasten unter dem Eingabefeld. ¡ und ! musst du nicht schreiben. Dein Fortschritt wird nur in diesem Browser gespeichert. <a href="#" id="reset">Fortschritt zurücksetzen</a></p>';
+  $('q1').onclick=function(){var by=function(c,pol,n){var f={cats:{},persons:allP(),pol:pol}; if(c) f.cats[c]=1; else f.cats=allC(); return take(verbItems(f),n);};
+    start(shuffle([].concat(by('reg','a',6),by('irr','a',9),by('stem','a',5),by('refl','a',5),by(null,'n',5))),{title:'Das Wichtigste',back:'home'});};
+  $('q2').onclick=function(){start(shuffle(verbItems({cats:{irr:1},persons:{0:1},pol:'a'})),{title:'Kurzformen (tú)',back:'home'});};
+  $('q3').onclick=function(){start(take(weakItems(),25),{title:'Meine Schwächen',back:'home'});};
+  $('q4').onclick=function(){go('test');};
+  $('reset').onclick=function(e){e.preventDefault(); if(confirm('Gesamten Fortschritt löschen?')){S={cat:{},items:{},exams:[]};save();go('home');}};
+};
+pages.drill=function(){
+  main.innerHTML='<div class="card"><h2>Formen-Drill</h2><p class="mut">Du bekommst Verb + Person und tippst die Imperativform. Falsche Antworten kommen kurz darauf noch einmal.</p>'+
+   '<h3>Verbgruppen</h3>'+chips('c',[['reg','Regelmäßig'],['irr','Unregelmäßig'],['stem','Stammwechsel'],['refl','Reflexiv']],['reg','irr','stem','refl'])+
+   '<h3>Personen</h3>'+chips('p',[['0','tú'],['1','usted'],['2','vosotros'],['3','ustedes']],['0','1','2','3'])+
+   '<h3>Form</h3>'+chips('o',[['a','bejaht'],['n','verneint'],['b','beides gemischt']],['a'])+
+   '<h3>Anzahl</h3>'+chips('n',[['10','10'],['20','20'],['40','40'],['all','alle']],['20'])+
+   '<p style="margin-top:16px"><button class="btn" id="s">Drill starten</button></p></div>';
+  bindChips('c',1);bindChips('p',1);bindChips('o',0);bindChips('n',0);
+  $('s').onclick=function(){var f={cats:{},persons:{},pol:chipVals('o')[0]}; chipVals('c').forEach(function(k){f.cats[k]=1;}); chipVals('p').forEach(function(k){f.persons[k]=1;});
+    start(take(verbItems(f),chipVals('n')[0]),{title:'Formen-Drill'});};
+};
+pages.tabla=function(){
+  var sel=pages.tabla.sel||'irr', neg=!!pages.tabla.neg;
+  var list=shuffle(VERBS.filter(function(v){return v.cat===sel;})).slice(0,6);
+  main.innerHTML='<div class="card"><h2>Completa la tabla</h2><p class="mut">Wie auf AB3 und AB3 2: alle vier Formen eines Verbs ausfüllen, dann prüfen.</p>'+
+   chips('tc',[['reg','Regelmäßig'],['irr','Unregelmäßig'],['stem','Stammwechsel'],['refl','Reflexiv']],[sel])+
+   '<div style="height:8px"></div>'+chips('tn',[['a','bejaht'],['n','verneint']],[neg?'n':'a'])+accentKeys()+
+   '<div class="scroll"><table id="tt"><tr><th>Infinitivo</th>'+PERSONS.map(function(p){return '<th>'+p+'</th>';}).join('')+'</tr>'+
+   list.map(function(v,r){return '<tr><td class="inf">'+v.inf+'<br><span class="mut" style="font-weight:400">'+v.de+'</span></td>'+[0,1,2,3].map(function(p){return '<td><input type="text" data-r="'+r+'" data-p="'+p+'" autocapitalize="off" autocorrect="off" spellcheck="false"><div class="mut" data-s="'+r+'-'+p+'"></div></td>';}).join('')+'</tr>';}).join('')+
+   '</table></div><div class="row" style="margin-top:12px"><button class="btn" id="chk">Prüfen</button><button class="btn ghost" id="new">Neue Verben</button></div><div id="tfb"></div></div>';
+  bindKeys(main.querySelector('td input'));
+  $('tc').querySelectorAll('.chip').forEach(function(c){c.onclick=function(){pages.tabla.sel=c.dataset.v;pages.tabla();};});
+  $('tn').querySelectorAll('.chip').forEach(function(c){c.onclick=function(){pages.tabla.neg=c.dataset.v==='n';pages.tabla();};});
+  $('new').onclick=function(){pages.tabla();};
+  $('chk').onclick=function(){var ok=0,n=0; main.querySelectorAll('td input').forEach(function(inp){ if(inp.readOnly) return; var v=list[+inp.dataset.r],p=+inp.dataset.p,sol=neg?v.n[p]:v.a[p],good=norm(inp.value)===norm(sol);
+      n++; if(good) ok++; inp.className=good?'ok':'bad'; inp.readOnly=true;
+      main.querySelector('[data-s="'+inp.dataset.r+'-'+p+'"]').innerHTML=good?'':'<b style="color:var(--red)">'+esc(sol)+'</b>';
+      record({id:v.inf+'|'+p+'|'+(neg?'n':'a'),cat:neg?'neg':v.cat},good);});
+    if(n) $('tfb').innerHTML='<div class="fb '+(ok===n?'ok':'warn')+'"><b>'+ok+' von '+n+' richtig.</b> '+(ok===n?'Perfekt.':'Die roten Formen sind die richtigen Lösungen – lies sie einmal laut und mach dann „Neue Verben“.')+'</div>';};
+};
+pages.frases=function(){
+  main.innerHTML='<div class="card"><h2>Sätze in „Lengua Tarzan“</h2><p class="mut">Genau die Aufgabenart von AB3 (B) und AB3 2 (Aufg. 141/142): <b>Tú / leer el periódico → ¡Lee el periódico!</b></p>'+
+   '<h3>Form</h3>'+chips('o',[['a','bejaht (Aufg. 141)'],['n','verneint (Aufg. 142)']],['a'])+'<h3>Anzahl</h3>'+chips('n',[['10','10'],['20','20'],['all','alle 35']],['10'])+
+   '<p style="margin-top:16px"><button class="btn" id="s">Starten</button></p></div>';
+  bindChips('o',0);bindChips('n',0);
+  $('s').onclick=function(){start(take(tarzanItems(chipVals('o')[0]),chipVals('n')[0]),{title:'Sätze'});};
+};
+pages.errores=function(){
+  main.innerHTML='<div class="card"><h2>Corrige los errores</h2><p class="mut">In jedem Satz steckt ein typischer Testfehler. Einige davon stammen aus deinen eigenen Mitschriften und Arbeitsblättern (6. und 8. Schulübung, AB3, AB2 2) – die solltest du besonders gut kennen.</p>'+
+   '<button class="btn" id="s">Alle '+ERRORS.length+' Fehler jagen</button> <button class="btn ghost" id="s2">Nur 10</button></div>';
+  $('s').onclick=function(){start(shuffle(errItems()),{title:'Fehler finden'});};
+  $('s2').onclick=function(){start(take(errItems(),10),{title:'Fehler finden'});};
+};
+pages.traduce=function(){
+  main.innerHTML='<div class="card"><h2>Traduce al español</h2><p class="mut">Kurze deutsche Befehle ins Spanische. Die Person steht in Klammern.</p>'+
+   '<button class="btn" id="s">10 Sätze</button> <button class="btn ghost" id="s2">Alle '+TRANSLATE.length+'</button></div>';
+  $('s').onclick=function(){start(take(transItems(),10),{title:'Übersetzen'});};
+  $('s2').onclick=function(){start(shuffle(transItems()),{title:'Übersetzen'});};
+};
+pages.test=function(){
+  var ex=S.exams.slice(-5).reverse().map(function(e){return '<tr><td>'+e.d+'</td><td>'+e.p+' %</td><td>Note '+grade(e.p)+'</td></tr>';}).join('');
+  main.innerHTML='<div class="card"><h2>Probetest</h2><p>24 gemischte Aufgaben wie im Test: Formen (regelmäßig, unregelmäßig, Stammwechsel, reflexiv), Verneinung, Sätze, Fehlerkorrektur und Übersetzung.</p>'+
+   '<div class="rule o"><b>Testbedingungen:</b> kein Sofort-Feedback, nichts nachschauen, ca. 12–15 Minuten. Akzentfehler zählen als falsch.</div>'+
+   '<p><button class="btn red" id="s">Probetest starten</button></p>'+(ex?'<h3>Bisherige Ergebnisse</h3><table>'+ex+'</table>':'')+
+   '<p class="mut">Die Note ist ein Übungsschlüssel, nicht der Schlüssel deiner Lehrkraft.</p></div>';
+  $('s').onclick=function(){var v=function(c,pol,n,ps){var f={cats:{},persons:ps||allP(),pol:pol}; if(c) f.cats[c]=1; else f.cats=allC(); return take(verbItems(f),n);};
+    var items=[].concat(v('reg','a',3),v('irr','a',5),v('stem','a',3),v('refl','a',3),v(null,'n',3),take(tarzanItems('a'),2),take(tarzanItems('n'),1),take(errItems(),2),take(transItems(),2));
+    start(shuffle(items),{title:'Probetest',exam:true,back:'test'});};
+};
+pages.regeln=function(){
+  var tbl=function(cat){return '<div class="scroll"><table><tr><th>Infinitivo</th>'+PERSONS.map(function(p){return '<th>'+p+'</th>';}).join('')+'</tr>'+VERBS.filter(function(v){return v.cat===cat;}).map(function(v){
+    return '<tr><td class="inf">'+v.inf+(v.sw?' <span class="mut" style="font-weight:400">('+v.sw+')</span>':'')+'</td>'+v.a.map(function(f,i){return '<td'+(cat==='irr'&&i===0?' class="r"':'')+'>'+f+'</td>';}).join('')+'</tr>';}).join('')+'</table></div>';};
+  var ntbl=function(infs){return '<div class="scroll"><table><tr><th>Infinitivo</th>'+PERSONS.map(function(p){return '<th>'+p+'</th>';}).join('')+'</tr>'+VERBS.filter(function(v){return infs.indexOf(v.inf)>=0;}).map(function(v){
+    return '<tr><td class="inf">'+v.inf+'</td>'+v.n.map(function(f){return '<td>'+f+'</td>';}).join('')+'</tr>';}).join('')+'</table></div>';};
+  main.innerHTML='<div class="card"><h2>Regeln zum Nachschauen</h2><p class="mut">Die Kurzfassung des Lernskripts. Tippe auf eine Überschrift.</p>'+
+  '<details open><summary>1 · Regelmäßige Verben</summary><div class="rule"><b>tú</b> = él-Form im Präsens: habla, come, vive.<br><b>usted / ustedes</b> = Vokal tauschen: -ar → <b>e / en</b>, -er und -ir → <b>a / an</b>.<br><b>vosotros</b> = Infinitiv, -r weg, <b>-d</b> dran: hablad, comed, vivid.</div><div class="rule o">Schreibung: pagar → pa<b>gu</b>e, apagar → apa<b>gu</b>e, sacar → sa<b>qu</b>e.</div>'+tbl('reg')+'</details>'+
+  '<details><summary>2 · Unregelmäßige Verben</summary><div class="rule r"><b>VEN – DI – SAL – HAZ – TEN – VE – PON – SÉ</b><br>Nur die tú-Form ist eine Kurzform zum Auswendiglernen. ir und ver haben beide <b>ve</b>.</div><div class="rule"><b>usted / ustedes</b> ableiten: yo-Form → -o weg → a / an. hago → haga · tengo → tenga · salgo → salga · pongo → ponga · digo → diga · vengo → venga · veo → vea.<br>Wirklich unregelmäßig: ir → vaya / vayan, ser → sea / sean.<br><b>vosotros</b> ist immer regelmäßig: haced, tened, id, salid, poned, decid, venid, ved, sed.</div>'+tbl('irr')+'</details>'+
+  '<details><summary>3 · Stammwechsel</summary><div class="rule">Der Stammwechsel aus dem Präsens (e → ie, o → ue, e → i, u → ue) bleibt bei <b>tú, usted, ustedes</b> – aber <b>nie bei vosotros</b>.</div>'+tbl('stem')+'</details>'+
+  '<details><summary>4 · Reflexive Verben</summary><div class="rule">Bejaht wird das Pronomen <b>angehängt</b>: te (tú), se (usted), os (vosotros), se (ustedes). Dadurch wird das Wort länger → <b>Akzent</b> auf die Silbe, die vorher betont war: levanta → lev<b>á</b>ntate.<br>vosotros: das -d fällt weg: levantad + os → <b>levantaos</b> (ohne Akzent).</div>'+tbl('refl')+'</details>'+
+  '<details><summary>5 · Verneinter Imperativ</summary><div class="rule"><b>no + (Pronomen) + Subjuntivo-Form.</b><br>usted / ustedes: gleiche Form wie bejaht, nur „no“ davor.<br>tú: usted-Form + <b>s</b> (no hables, no comas).<br>vosotros: <b>-éis</b> (-ar) bzw. <b>-áis</b> (-er/-ir).<br>Pronomen stehen <b>vor</b> dem Verb: ¡Levántate! → ¡No te levantes! · ¡Hazlo! → ¡No lo hagas!</div>'+ntbl(['hablar','comer','vivir','ir','ser','tener','hacer','decir','levantarse'])+'</details>'+
+  '<details><summary>6 · Die häufigsten Fehler</summary><div class="scroll"><table><tr><th>Falsch</th><th>Richtig</th><th>Warum</th></tr>'+ERRORS.map(function(e){return '<tr><td><s>'+esc(e[1])+'</s></td><td class="r">'+esc(e[2][0])+'</td><td>'+esc(e[3])+'</td></tr>';}).join('')+'</table></div></details></div>';
+};
+function go(t){tab=t; R=null; $('nav').innerHTML=TABS.map(function(x){return '<button data-t="'+x[0]+'" class="'+(x[0]===t?'on':'')+'">'+x[1]+'</button>';}).join('');
+  $('nav').querySelectorAll('button').forEach(function(b){b.onclick=function(){go(b.dataset.t);};}); pages[t](); window.scrollTo(0,0);}
+go('home');
+})();
+</script>
+</body>
+</html>
